@@ -5,38 +5,43 @@
 <title>Sport Shop</title>
 </head>
 <body>
+Введите данные для создания товара: <p>
+<form method = "POST">
+Тип: <input type = "text" name = "type" maxlength = "20" required> <p>
+Имя: <input type = "text" name = "name" maxlength = "20" required> <p>
+Цена: <input type = "number" name = "price" min = "1" max = "500" required> <p>
+<input type="hidden" name = "command" value = "create"/>
+<input type = "submit" value = "Сохранить"/>
+</form>
+
 Распеределение по бренду: <p>
+<c:forEach var = "brand" items= "Nike,Adidas,Puma">
+${brand}: <p>
 <c:forEach var = "product" items = "${products}">
 
-<c:if test = "${product.name == 'Nike'}">
-Nike: <p>
-</c:if>
+<c:if test = "${product.name == brand}">
+<form method = "POST">
+Product: ${product.type} name: ${product.name} price: ${product.price}
+<input type="hidden" name = "id" value = "${product.id}"/>
+<input type="hidden" name = "command" value = "delete"/>
+<input type="submit" value = "X"/>
 
-<c:if test = "${product.name == 'Adidas'}">
-Adidas: <p>
+</form>
 </c:if>
-
-<c:if test = "${product.name == 'Puma'}">
-Puma: <p>
-</c:if>
-  Product: ${product.type} name: ${product.name} price: $${product.price} <p>
+</c:forEach>
 </c:forEach>
 
-Распеределение по цене: <p>
+
+Прочие бренды: <p>
 <c:forEach var = "product" items = "${products}">
-<c:choose>
-<c:when test = "${product.price > 95}">
-Дорогие: <p>
-</c:when>
-<c:when test = "${product.price < 95}">
-Дешевые: <p>
-</c:when>
-<c:otherwise>
-В самый раз: <p>
-</c:otherwise>
-</c:choose>
- Product: ${product.type} name: ${product.name} price: $${product.price} <p>
+<c:if test = "${(product.name != 'Puma') && (product.name != 'Adidas') && (product.name != 'Nike')}">
+<form method = "POST">
+Product: ${product.type} name: ${product.name} price: ${product.price}
+<input type="hidden" name = "id" value = "${product.id}"/>
+<input type="hidden" name = "command" value = "delete"/>
+<input type="submit" value = "X"/>
+</form>
+</c:if>
 </c:forEach>
-
 </body>
 </html>
